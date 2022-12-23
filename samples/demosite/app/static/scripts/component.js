@@ -8,10 +8,14 @@ import {
   createRef,
 } from "https://unpkg.com/lit@2.4.1/directives/ref.js?module";
 import { asyncReplace } from "https://unpkg.com/lit@2.4.1/directives/async-replace.js?module";
+import { classMap } from "https://unpkg.com/lit@2.4.1/directives/class-map.js?module";
 import "https://unpkg.com/@material/mwc-button@0.27.0/mwc-button.js?module";
 import "https://unpkg.com/@material/mwc-textfield@0.27.0/mwc-textfield.js?module";
 import "https://unpkg.com/@material/mwc-textarea@0.27.0/mwc-textarea.js?module";
 import "https://unpkg.com/@material/mwc-fab@0.27.0/mwc-fab.js?module";
+import "https://unpkg.com/@material/mwc-drawer@0.27.0/mwc-drawer.js?module";
+import "https://unpkg.com/@material/mwc-top-app-bar@0.27.0/mwc-top-app-bar.js?module";
+import "https://unpkg.com/@material/mwc-icon-button@0.27.0/mwc-icon-button.js?module";
 
 const STEPS = ["buy", "signup", "login", "checkout", "review"];
 
@@ -26,6 +30,7 @@ async function* countTime(count) {
 class RecaptchaDemo extends LitElement {
   static get styles() {
     return css`
+      /* ... */
       :host {
         display: block;
       }
@@ -35,62 +40,43 @@ class RecaptchaDemo extends LitElement {
         min-height: 100vh;
       }
       .demo {
-        --blue: rgb(56, 113, 224);
-        --pink: rgb(219, 52, 146);
-        --teal: rgb(112, 184, 117);
+        /* Blues */
+        --blue-10: #c5dbff;
+        --blue-20: #82b1ff;
+        --blue-30: #448aff;
+        --blue-40: #1a73e8;
+        --blue-50: #0065d3;
+        --blue-60: #0254c2;
+        /* Grays */
+        --gray-10: #efefef;
+        --gray-20: #dddddd;
+        --gray-30: #bfbfbf;
+        --gray-40: #80868b;
+        --gray-50: #646a6d;
+        --gray-60: #3f4244;
+        /* Indigos */
+        --indigo-60: #1d3ba9;
+        --indigo-70: #0c2b77;
+        --indigo-80: #091742;
+        /* Purples */
+        --purple-30: #9961e2;
+        --purple-40: #6c27a8;
+        --purple-50: #47127f;
+        /* Pinks */
+        --pink-20: #ff8dd6;
+        --pink-30: #ef4fa6;
+        --pink-40: #ee0290;
+        --pink-50: #bf087e;
+        /* Greens */
+        --green-20: #b2dfdb;
+        --green-30: #5eccbe;
+        --green-40: #4db6ac;
+        --green-50: #26998B;
       }
       .demo {
-        background: linear-gradient(
-              45deg,
-              transparent calc(50% - 0.5px),
-              #bbb 50%,
-              transparent calc(50% + 1px)
-            )
-            5vw 0 / 5vw 5vw no-repeat fixed,
-          linear-gradient(
-              -45deg,
-              transparent calc(50% - 0.5px),
-              #bbb 50%,
-              transparent calc(50% + 1px)
-            )
-            5vw 0 / 5vw 5vw no-repeat fixed,
-          linear-gradient(180deg, #bbb 1px, transparent 1px) -1px -1px / auto
-            5vw repeat fixed,
-          linear-gradient(90deg, #bbb 1px, transparent 1px) -1px -1px / 5vw auto
-            repeat fixed,
-          linear-gradient(90deg, #ccc, #ccc) 40vw 25vw / 15vw 5vw no-repeat
-            fixed,
-          linear-gradient(90deg, #ddd, #ddd) 0 25vw / 45vw 25vw no-repeat fixed,
-          linear-gradient(90deg, #ddd, #ddd) 15vw 20vw / 20vw 60vw no-repeat
-            fixed,
-          linear-gradient(90deg, #ddd, #ddd) 5vw 55vw / 60vw 20vw no-repeat
-            fixed,
-          linear-gradient(90deg, #ddd, #ddd) 5vw 10vw / 80vw 10vw no-repeat
-            fixed,
-          linear-gradient(90deg, #ddd, #ddd) 15vw 0 / 30vw 10vw no-repeat fixed,
-          linear-gradient(90deg, #ccc, #ccc) 80vw 0 / 5vw 10vw no-repeat fixed,
-          linear-gradient(
-              45deg,
-              #ccc 25%,
-              transparent 25%,
-              transparent 75%,
-              #ccc 75%
-            )
-            0 0 / 10vw 10vw repeat fixed,
-          linear-gradient(
-              45deg,
-              #ccc 25%,
-              transparent 25%,
-              transparent 75%,
-              #ccc 75%
-            )
-            5vw 5vw / 10vw 10vw repeat fixed,
-          #ddd;
-      }
-      .demo {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        grid-template-rows: 1fr;
+        background: 
+          radial-gradient(circle, var(--indigo-70), var(--indigo-80)) 0 0 / 50vw 100vh no-repeat fixed,
+          var(--indigo-80);
       }
       /* Slotted */
       ::slotted(.g-recaptcha) {
@@ -127,11 +113,11 @@ class RecaptchaDemo extends LitElement {
         width: 100%;
       }
       .submit.danger {
-        --mdc-theme-primary: var(--pink);
-        --mdc-button-outline-color: var(--pink);
+        --mdc-theme-primary: var(--pink-40);
+        --mdc-button-outline-color: var(--pink-40);
       }
       .submit.success {
-        --mdc-theme-primary: var(--blue);
+        --mdc-theme-primary: var(--blue-40);
       }
       /* Generic */
       ul.unstyled {
@@ -145,13 +131,16 @@ class RecaptchaDemo extends LitElement {
       }
       fieldset {
         border: 0;
-        margin: 0;
+        display: block;
+        margin: 0 auto;
+        max-width: 350px;
         padding: 0;
       }
-      legend {
+      legend,
+      .legend {
         display: block;
-        font-weight: bold;
-        margin: 0 0 36px 0;
+        font-family: "Press Start 2P", monospace;
+        margin: 0;
         padding: 0;
         text-align: center;
       }
@@ -166,6 +155,16 @@ class RecaptchaDemo extends LitElement {
       mwc-button {
         margin-bottom: 24px;
       }
+      mwc-drawer {
+        --mdc-drawer-width: 50vw;
+      }
+      mwc-drawer[open] mwc-top-app-bar {
+        /* Default width of drawer is 256px. See CSS Custom Properties below */
+        --mdc-top-app-bar-width: calc(100% - var(--mdc-drawer-width, 50vw));
+      }
+      mwc-top-app-bar {
+        --mdc-theme-primary: transparent;
+      }
       a {
         color: var(--blue);
         display: block;
@@ -173,79 +172,32 @@ class RecaptchaDemo extends LitElement {
         text-align: center;
         text-decoration: none;
       }
-      /* Form */
-      section.form {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        justify-content: safe center;
-        left: 0;
-        position: fixed;
-        top: 0;
-        width: 50%;
-      }
-      .form-content {
-        background: #fff;
-        border-radius: 50px 0;
-        box-shadow: 10px 10px 30px -10px rgba(0, 0, 0, 0.4);
-        margin: auto;
-        max-width: 400px;
-        padding: 36px;
-        position: relative;
-        width: 100%;
-        z-index: 2;
-      }
-      .form-overlay {
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 3;
-      }
-      .form-overlay.enabled {
-        z-index: 1;
-      }
-      /* Guide */
-      section.guide {
-        background: #fff;
-        box-shadow: -8px 0 12px -8px rgba(0, 0, 0, 0.4);
-        min-height: 100vh;
-      }
-      .guide-content {
-        padding: 36px;
-        height: 200vh; /* TODO: remove, for testing scroll during dev */
-      }
-      .guide-overlay {
-        background: #fff;
-        bottom: 0;
-        box-sizing: border-box;
-        padding: 12px 36px;
-        position: fixed;
-        width: 50%;
-      }
-      .guide h1 {
-        margin: 0 0 36px 0;
+      p,
+      h1,
+      h2,
+      h3 {
+        margin: 0;
         padding: 0;
       }
-      .guide p,
-      .guide ul {
-        margin-bottom: 24px;
+      /* Form */
+      /* TODO */
+      /* Guide */
+      .h1 {
+        font-family: "Press Start 2P", monospace;
+        font-size: 1rem;
+        margin: 0;
+        padding: 0;
       }
       /* Menu */
       nav.mode {
         --mdc-theme-on-secondary: black;
         --mdc-theme-secondary: white;
-        margin-left: 24px;
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
+      }
+      nav.mode ul {
+        display: flex;
       }
       img.mode {
         width: 24px;
-      }
-      nav.mode li + li {
-        margin-top: 24px;
       }
       nav.mode .current {
         --mdc-theme-on-secondary: black;
@@ -297,6 +249,33 @@ class RecaptchaDemo extends LitElement {
           opacity: 0;
           transform: scale(0);
         }
+      }
+      @keyframes game-fade {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      .game {
+        background: rgba(180, 180, 180, 0.33);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .game.enabled {
+        opacity: 1;
+        z-index: 4;
+      }
+      .game.fading {
+        animation: 1s ease-out 0s 1 normal forwards running game-fade;
+      }
+      .game.disabled {
+        display: none;
+        z-index: -1;
       }
       ul.shadows {
         display: block;
@@ -454,6 +433,16 @@ class RecaptchaDemo extends LitElement {
         animation: 1s linear 0s infinite alternate both running shadow-hop;
       }
       /* Grade */
+      .grade {
+        align-items: center;
+        background: var(--gray-10);
+        color: #000;
+        display: flex;
+        padding: 24px;
+      }
+      .grade img {
+        margin-right: 24px;
+      }
       .grade.warning p {
         display: none;
       }
@@ -493,6 +482,8 @@ class RecaptchaDemo extends LitElement {
     done: { type: Boolean, state: true, attribute: false },
     captured: { type: Boolean, state: true, attribute: false },
     grade: { type: String, state: true, attribute: false },
+    drawerOpen: { type: Boolean, state: true, attribute: false },
+    game: { type: String, state: true, attribute: false },
     /* TODO: update score/verdict when payload is standardized */
     score: { type: String },
     verdict: { type: String },
@@ -525,6 +516,8 @@ class RecaptchaDemo extends LitElement {
     this.captured = false;
     this.done = false;
     this.grade = "warning";
+    this.drawerOpen = true;
+    this.game = "on";
   }
 
   willUpdate() {
@@ -554,12 +547,18 @@ class RecaptchaDemo extends LitElement {
     }, 0);
   }
 
+  toggleDrawer() {
+    this.drawerOpen = !this.drawerOpen;
+  }
+
   goToBotMode() {
     this.mode = "bot";
+    this.game = "on";
   }
 
   goToHumanMode() {
     this.mode = "human";
+    this.game = "on";
   }
 
   goToNextStep() {
@@ -605,6 +604,19 @@ class RecaptchaDemo extends LitElement {
     }
   }
 
+  fullyCapture(event) {
+    console.log("fullycapture", event);
+    if (
+      ["shadow-capture", "castle-destroy"].includes(event.animationName) &&
+      this.captured
+    ) {
+      this.game = "fade";
+    }
+    if (event.animationName === "game-fade") {
+      this.game = "off";
+    }
+  }
+
   captureShadow(event) {
     this.capturedShadows = [
       ...this.capturedShadows,
@@ -621,10 +633,10 @@ class RecaptchaDemo extends LitElement {
 
   render() {
     const MENU = html`
-      <nav class="mode">
+      <nav class="mode" slot="actionItems">
         <ul class="unstyled">
           <li>
-            <mwc-fab
+            <mwc-icon-button
               @click=${this.goToHumanMode}
               aria-description="Pose as a human"
               aria-label="Human Mode"
@@ -633,13 +645,12 @@ class RecaptchaDemo extends LitElement {
               <img
                 alt="Magnifying Glass Icon"
                 class="mode magnifier"
-                slot="icon"
                 src="../static/images/magnifier-unoptimized.svg"
               />
-            </mwc-fab>
+            </mwc-icon-button>
           </li>
           <li>
-            <mwc-fab
+            <mwc-icon-button
               @click=${this.goToBotMode}
               aria-description="Pose as a bot"
               aria-label="Bot Mode"
@@ -648,10 +659,9 @@ class RecaptchaDemo extends LitElement {
               <img
                 alt="Castle Icon"
                 class="mode castle"
-                slot="icon"
                 src="../static/images/castle-unoptimized.svg"
               />
-            </mwc-fab>
+            </mwc-icon-button>
           </li>
         </ul>
       </nav>
@@ -673,7 +683,7 @@ class RecaptchaDemo extends LitElement {
 
     const FORMS = {
       buy: html`
-        <h2 id="legend" class="mdc-typography--headline5">Example products</h2>
+        <h2 class="legend">Example products</h2>
         <ul class="unstyled products">
           <li class="item">
             <img
@@ -714,219 +724,274 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       checkout: html`
-        <form>
-          <fieldset>
-            <legend id="legend" class="mdc-typography--headline5">
-              Example check out
-            </legend>
-            <dl class="unstyled cart">
-              <dt>
-                <img
-                  alt="Demo Product Shield"
-                  src="../static/images/shield-unoptimized.svg"
-                />
-              </dt>
-              <dd>1</dd>
-            </dl>
-            <mwc-textfield
-              label="Address"
-              type="text"
-              value="123 Address Street City, ST 00000"
-            ></mwc-textfield>
-            <mwc-textfield
-              label="Credit card"
-              type="number"
-              value="7777-8888-3333-2222"
-            ></mwc-textfield>
-          </fieldset>
-          <div>${BUTTON}</div>
-        </form>
+        <fieldset>
+          <legend class="legend">Example check out</legend>
+          <dl class="unstyled cart">
+            <dt>
+              <img
+                alt="Demo Product Shield"
+                src="../static/images/shield-unoptimized.svg"
+              />
+            </dt>
+            <dd>1</dd>
+          </dl>
+          <mwc-textfield
+            label="Address"
+            type="text"
+            value="123 Address Street City, ST 00000"
+          ></mwc-textfield>
+          <mwc-textfield
+            label="Credit card"
+            type="number"
+            value="7777-8888-3333-2222"
+          ></mwc-textfield>
+        </fieldset>
+        <fieldset>${BUTTON}</fieldset>
       `,
       login: html`
-        <form>
-          <fieldset>
-            <legend id="legend" class="mdc-typography--headline5">
-              Example log in
-            </legend>
-            <mwc-textfield
-              label="Email"
-              type="email"
-              value="user@example.com"
-            ></mwc-textfield>
-            <mwc-textfield
-              label="Password"
-              type="password"
-              value="password"
-            ></mwc-textfield>
-          </fieldset>
-          <div>${BUTTON}</div>
-        </form>
+        <fieldset>
+          <legend class="legend">Example log in</legend>
+          <mwc-textfield
+            label="Email"
+            type="email"
+            value="user@example.com"
+          ></mwc-textfield>
+          <mwc-textfield
+            label="Password"
+            type="password"
+            value="password"
+          ></mwc-textfield>
+        </fieldset>
+        <fieldset>${BUTTON}</fieldset>
       `,
       review: html`
-        <form action="/submit">
-          <fieldset>
-            <legend id="legend" class="mdc-typography--headline5">
-              Example leave review
-            </legend>
-            <mwc-textarea label="Review" value="Good job."></mwc-textarea>
-          </fieldset>
-          <div>${BUTTON}</div>
-        </form>
+        <fieldset>
+          <legend class="legend">Example leave review</legend>
+          <mwc-textarea label="Review" value="Good job."></mwc-textarea>
+        </fieldset>
+        <fieldset>${BUTTON}</fieldset>
       `,
       signup: html`
-        <form>
-          <fieldset>
-            <legend id="legend" class="mdc-typography--headline5">
-              Example sign up
-            </legend>
-            <mwc-textfield
-              label="Email"
-              type="email"
-              value="user@example.com"
-            ></mwc-textfield>
-            <mwc-textfield
-              label="Password"
-              type="password"
-              value="password"
-            ></mwc-textfield>
-            <mwc-textfield
-              label="Confirm Password"
-              type="password"
-              value="password"
-            ></mwc-textfield>
-          </fieldset>
-          <div>${BUTTON}</div>
-        </form>
+        <fieldset>
+          <legend class="legend">Example sign up</legend>
+          <mwc-textfield
+            label="Email"
+            type="email"
+            value="user@example.com"
+          ></mwc-textfield>
+          <mwc-textfield
+            label="Password"
+            type="password"
+            value="password"
+          ></mwc-textfield>
+          <mwc-textfield
+            label="Confirm Password"
+            type="password"
+            value="password"
+          ></mwc-textfield>
+        </fieldset>
+        <fieldset>${BUTTON}</fieldset>
       `,
     };
 
     const OVERLAYS = {
       human: html`
-        <ul class="shadows unstyled">
-          <li>
-            <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("arrow")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="arrow"
-            >
-              <img
-                ${ref(this.shadowArrow)}
-                alt="The Arrow Bot"
-                class="shadow arrow"
-                src="../static/images/shadow-arrow-unoptimized.svg"
-              />
-            </button>
-          </li>
-          <li>
-            <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("blob")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="blob"
-            >
-              <img
-                ${ref(this.shadowBlob)}
-                alt="The Blob Bot"
-                class="shadow blob"
-                src="../static/images/shadow-blob-unoptimized.svg"
-              />
-            </button>
-          </li>
-          <li>
-            <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("creeper")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="creeper"
-            >
-              <img
-                ${ref(this.shadowCreeper)}
-                alt="The Creeper Bot"
-                class="shadow creeper"
-                src="../static/images/shadow-creeper-unoptimized.svg"
-              />
-            </button>
-          </li>
-          <li>
-            <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("flame")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="flame"
-            >
-              <img
-                ${ref(this.shadowFlame)}
-                alt="The Flame Bot"
-                class="shadow flame"
-                src="../static/images/shadow-flame-unoptimized.svg"
-              />
-            </button>
-          </li>
-          <li>
-            <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("ghost")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="ghost"
-            >
+        <div
+          @animationend=${this.fullyCapture}
+          class="game ${classMap({
+            enabled: this.game === "on",
+            disabled: this.game === "off",
+            fading: this.game === "fade",
+          })}"
+        >
+          <ul class="shadows unstyled">
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("arrow")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="arrow"
+              >
+                <img
+                  ${ref(this.shadowArrow)}
+                  alt="The Arrow Bot"
+                  class="shadow arrow"
+                  src="../static/images/shadow-arrow-unoptimized.svg"
+                />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("blob")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="blob"
+              >
+                <img
+                  ${ref(this.shadowBlob)}
+                  alt="The Blob Bot"
+                  class="shadow blob"
+                  src="../static/images/shadow-blob-unoptimized.svg"
+                />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("creeper")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="creeper"
+              >
+                <img
+                  ${ref(this.shadowCreeper)}
+                  alt="The Creeper Bot"
+                  class="shadow creeper"
+                  src="../static/images/shadow-creeper-unoptimized.svg"
+                />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("flame")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="flame"
+              >
+                <img
+                  ${ref(this.shadowFlame)}
+                  alt="The Flame Bot"
+                  class="shadow flame"
+                  src="../static/images/shadow-flame-unoptimized.svg"
+                />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("ghost")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="ghost"
+              >
+                <img
+                  ${ref(this.shadowGhost)}
+                  alt="The Ghost Bot"
+                  class="shadow ghost"
+                  src="../static/images/shadow-ghost-unoptimized.svg"
+                />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                @click=${this.captureShadow}
+                class="${this.capturedShadows.includes("skull")
+                  ? "captured"
+                  : "free"}"
+                data-shadow-id="skull"
+              >
+                <img
+                  ${ref(this.shadowSkull)}
+                  alt="The Skull Bot"
+                  class="shadow skull"
+                  src="../static/images/shadow-skull-unoptimized.svg"
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
+      `,
+      bot: html`
+        <div
+          @animationend=${this.fullyCapture}
+          class="game ${classMap({
+            enabled: this.game === "on",
+            disabled: this.game === "off",
+            fading: this.game === "fade",
+          })}"
+        >
+          <div
+            class="destroy ${this.capturedCastles.includes("castle")
+              ? "captured"
+              : "free"}"
+          >
+            <div class="destroyer">
               <img
                 ${ref(this.shadowGhost)}
                 alt="The Ghost Bot"
                 class="shadow ghost"
                 src="../static/images/shadow-ghost-unoptimized.svg"
               />
-            </button>
-          </li>
-          <li>
+            </div>
             <button
-              @click=${this.captureShadow}
-              class="${this.capturedShadows.includes("skull")
-                ? "captured"
-                : "free"}"
-              data-shadow-id="skull"
+              type="button"
+              @click=${this.captureCastle}
+              class="target"
+              data-shadow-id="castle"
             >
               <img
-                ${ref(this.shadowSkull)}
-                alt="The Skull Bot"
-                class="shadow skull"
-                src="../static/images/shadow-skull-unoptimized.svg"
+                ${ref(this.goodCastle)}
+                alt="The Castle"
+                class="castle"
+                src="../static/images/castle-unoptimized.svg"
               />
             </button>
-          </li>
-        </ul>
-      `,
-      bot: html`
-        <div
-          class="destroy ${this.capturedCastles.includes("castle")
-            ? "captured"
-            : "free"}"
-        >
-          <div class="destroyer">
-            <img
-              ${ref(this.shadowGhost)}
-              alt="The Ghost Bot"
-              class="shadow ghost"
-              src="../static/images/shadow-ghost-unoptimized.svg"
-            />
           </div>
-          <button
-            @click=${this.captureCastle}
-            class="target"
-            data-shadow-id="castle"
-          >
-            <img
-              ${ref(this.goodCastle)}
-              alt="The Castle"
-              class="castle"
-              src="../static/images/castle-unoptimized.svg"
-            />
-          </button>
+        </div>
+      `,
+    };
+
+    const GRADE = {
+      celebrate: html`
+        <div class="grade celebrate" slot="subtitle">
+          <img
+            ${ref(this.goodCelebrate)}
+            alt="Celebrate"
+            src="../static/images/celebrate-unoptimized.svg"
+          />
+          <p>Message about winning by successfully letting humans through.</p>
+        </div>
+      `,
+      warning: html`
+        <div class="grade warning ${this.mode}" slot="subtitle">
+          <img
+            ${ref(this.badWarning)}
+            alt="Warning"
+            src="../static/images/warning-unoptimized.svg"
+          />
+          <p class="human">Prompt about capturing the shadows.</p>
+          <p class="bot">Prompt about capturing the castle.</p>
+        </div>
+      `,
+      stop: html`
+        <div class="grade stop" slot="subtitle">
+          <img
+            ${ref(this.badStop)}
+            alt="Stop"
+            src="../static/images/stop-unoptimized.svg"
+          />
+          <p>
+            Warning about needing to verify if the user is a human or a bot.
+          </p>
+        </div>
+      `,
+      mugshot: html`
+        <div class="grade mugshot" slot="subtitle">
+          <img
+            ${ref(this.badMugshot)}
+            alt="Bot Caught"
+            src="../static/images/mugshot-unoptimized.svg"
+          />
+          <p>Message about winning by successfully blocking a bot.</p>
         </div>
       `,
     };
@@ -957,8 +1022,9 @@ class RecaptchaDemo extends LitElement {
 
     const GUIDES = {
       buy: html`
-        <h1 id="h1" class="mdc-typography--headline4">Using...</h1>
-        <ul class="mdc-typography--body1">
+        <h1 class="h1" slot="title">Using...</h1>
+        ${GRADE[this.grade]}
+        <ul>
           <li>
             What is this an example of? (Answer: invisible score on page load)
           </li>
@@ -973,8 +1039,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       checkout: html`
-        <h1 id="h1" class="mdc-typography--headline4">Using...</h1>
-        <ul class="mdc-typography--body1">
+        <h1 class="h1" slot="title">Using...</h1>
+        ${GRADE[this.grade]}
+        <ul>
           <li>
             What is this an example of? (Answer: invisible score on programmatic
             user action)
@@ -993,8 +1060,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       login: html`
-        <h1 id="h1" class="mdc-typography--headline4">Using...</h1>
-        <ul class="mdc-typography--body1">
+        <h1 class="h1" slot="title">Using...</h1>
+        ${GRADE[this.grade]}
+        <ul>
           <li>
             What is this an example of? (Answer: invisible score auto bind html
             button)
@@ -1012,8 +1080,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       review: html`
-        <h1 id="h1" class="mdc-typography--headline4">Using...</h1>
-        <ul class="mdc-typography--body1">
+        <h1 class="h1" slot="title">Using...</h1>
+        ${GRADE[this.grade]}
+        <ul>
           <li>
             What is this an example of? (Answer: checkbox automatically
             rendered)
@@ -1029,8 +1098,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       signup: html`
-        <h1 id="h1" class="mdc-typography--headline4">Using...</h1>
-        <ul class="mdc-typography--body1">
+        <h1 class="h1" slot="title">Using...</h1>
+        ${GRADE[this.grade]}
+        <ul>
           <li>
             What is this an example of? (Answer: checkbox explicitly rendered)
           </li>
@@ -1046,76 +1116,28 @@ class RecaptchaDemo extends LitElement {
       `,
     };
 
-    const GRADE = {
-      celebrate: html`
-        <div class="grade celebrate">
-          <img
-            ${ref(this.goodCelebrate)}
-            alt="Celebrate"
-            src="../static/images/celebrate-unoptimized.svg"
-          />
-          <p>Message about winning by successfully letting humans through.</p>
-        </div>
-      `,
-      warning: html`
-        <div class="grade warning ${this.mode}">
-          <img
-            ${ref(this.badWarning)}
-            alt="Warning"
-            src="../static/images/warning-unoptimized.svg"
-          />
-          <p class="human">Prompt about capturing the shadows.</p>
-          <p class="bot">Prompt about capturing the castle.</p>
-        </div>
-      `,
-      stop: html`
-        <div class="grade stop">
-          <img
-            ${ref(this.badStop)}
-            alt="Stop"
-            src="../static/images/stop-unoptimized.svg"
-          />
-          <p>
-            Warning about needing to verify if the user is a human or a bot.
-          </p>
-        </div>
-      `,
-      mugshot: html`
-        <div class="grade mugshot">
-          <img
-            ${ref(this.badMugshot)}
-            alt="Bot Caught"
-            src="../static/images/mugshot-unoptimized.svg"
-          />
-          <p>Message about winning by successfully blocking a bot.</p>
-        </div>
-      `,
-    };
-
     return html`
-      <style>
-        @import "https://unpkg.com/@material/typography@14.0.0/dist/mdc.typography.min.css";
-      </style>
-      <main class="demo">
-        <div class="column from">
-          <section class="form" aria-labelledby="legend">
-            <div class="form-content">${FORMS[this.step]}</div>
-            <div class="form-overlay ${this.captured ? "enabled" : ""}">
-              <div>${OVERLAYS[this.mode]}</div>
-              <div>${MENU}</div>
-            </div>
-          </section>
-        </div>
-        <div class="column guide">
-          <section class="guide" aria-labelledby="h1">
-            <div class="guide-content">
-              <div>${GUIDES[this.step]}</div>
-              <div>${GRADE[this.grade]}</div>
-            </div>
-            <div class="guide-overlay">${SCORE}</div>
-          </section>
-        </div>
-      </main>
+      <mwc-drawer
+        class="demo"
+        hasheader
+        type="dismissible"
+        ?open=${this.drawerOpen}
+      >
+        ${GUIDES[this.step]} ${SCORE}
+        <form slot="appContent">
+          <mwc-top-app-bar>
+            <mwc-icon-button
+              slot="navigationIcon"
+              icon="menu"
+              @click=${this.toggleDrawer}
+            ></mwc-icon-button>
+            <legend slot="title" class="legend">Title</legend>
+            ${MENU}
+          </mwc-top-app-bar>
+          <div>${FORMS[this.step]}</div>
+          <div>${OVERLAYS[this.mode]}</div>
+        </form>
+      </mwc-drawer>
     `;
   }
 }

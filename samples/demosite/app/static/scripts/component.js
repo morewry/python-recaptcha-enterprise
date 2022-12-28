@@ -37,6 +37,7 @@ class RecaptchaDemo extends LitElement {
       :host,
       .demo {
         font-family: sans-serif;
+        height: 100%;
         min-height: 100vh;
       }
       .demo {
@@ -72,11 +73,118 @@ class RecaptchaDemo extends LitElement {
         --green-30: #5eccbe;
         --green-40: #4db6ac;
         --green-50: #26998B;
+        /* Sizes */
+        --game-bottom: 25vh;
       }
       .demo {
         background: 
-          radial-gradient(circle, var(--indigo-70), var(--indigo-80)) 0 0 / 50vw 100vh no-repeat fixed,
+          url("../static/images/castle-alternate-unoptimized.svg") center bottom / auto var(--game-bottom) no-repeat fixed,
+          url("../static/images/land-unoptimized.svg") center bottom / auto 10vh no-repeat fixed,
+          linear-gradient(to bottom, transparent 0, var(--pink-40) 500%) center bottom / 100vw var(--game-bottom) no-repeat fixed,
+          radial-gradient(ellipse at bottom, var(--purple-30) -25%, transparent 45%) center bottom / 200vw 50vh no-repeat fixed,
           var(--indigo-80);
+      }
+      /* Generic */
+      ul.unstyled {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+      }
+      dl.unstyled,
+      .unstyled dt,
+      .unstyled dd {
+        margin: 0;
+        padding: 0;
+      }
+      img {
+        height: auto;
+        max-width: 5vw;
+      }
+      fieldset {
+        border: 0;
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+      legend {
+        display: block;
+        font: inherit;
+        font-family: "Press Start 2P", monospace;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      mwc-textfield {
+        display: block;
+        margin-bottom: 24px;
+        width: 100%;
+      }
+      mwc-textarea {
+        display: block;
+        margin-bottom: 24px;
+      }
+      mwc-button {
+        display: block;
+        margin-bottom: 24px;
+      }
+      mwc-drawer {
+        --mdc-drawer-width: 50vw;
+      }
+      mwc-drawer[open] mwc-top-app-bar {
+        /* Default width of drawer is 256px. See CSS Custom Properties below */
+        --mdc-top-app-bar-width: calc(100% - var(--mdc-drawer-width, 50vw));
+      }
+      mwc-top-app-bar {
+        --mdc-theme-primary: var(--indigo-80);
+      }
+      a {
+        color: var(--blue);
+        display: block;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+      }
+      p,
+      h1,
+      h2,
+      h3 {
+        font: inherit;
+        margin: 0;
+        padding: 0;
+      }
+      /* Shared */
+      .h1 {
+        font-family: "Press Start 2P", monospace;
+        font-size: 1rem;
+        margin: 0;
+        padding: 0;
+      }
+      .h2 {
+        font-family: "Press Start 2P", monospace;
+        font-size: 1rem;
+        margin: 0;
+        padding: 0;
+      }
+      /* Content */
+      .content {
+        /* cannot use flex or grid due to mwc-top-app-bar */
+        height: 100%;
+        min-height: 100vh;
+      }
+      /* Example */
+      .example {
+        color: white;
+        flex: 1 0 auto;
+        margin: auto;
+        max-width: 350px;
+        padding: 48px 0 var(--game-bottom) 0;
+      }
+      .example .h2,
+      .example p {
+        margin-bottom: 24px;
+      }
+      .example mwc-top-app-bar {
+        margin: 0 0 auto;
       }
       /* Slotted */
       ::slotted(.g-recaptcha) {
@@ -119,74 +227,15 @@ class RecaptchaDemo extends LitElement {
       .submit.success {
         --mdc-theme-primary: var(--blue-40);
       }
-      /* Generic */
-      ul.unstyled {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      img {
-        height: auto;
-        max-width: 5vw;
-      }
-      fieldset {
-        border: 0;
-        display: block;
-        margin: 0 auto;
-        max-width: 350px;
-        padding: 0;
-      }
-      legend,
-      .legend {
-        display: block;
-        font-family: "Press Start 2P", monospace;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-      }
-      mwc-textfield {
-        margin-bottom: 24px;
-        width: 100%;
-      }
-      mwc-textarea {
-        display: block;
-        margin-bottom: 24px;
-      }
-      mwc-button {
-        margin-bottom: 24px;
-      }
-      mwc-drawer {
-        --mdc-drawer-width: 50vw;
-      }
-      mwc-drawer[open] mwc-top-app-bar {
-        /* Default width of drawer is 256px. See CSS Custom Properties below */
-        --mdc-top-app-bar-width: calc(100% - var(--mdc-drawer-width, 50vw));
-      }
-      mwc-top-app-bar {
-        --mdc-theme-primary: transparent;
-      }
-      a {
-        color: var(--blue);
-        display: block;
-        font-weight: bold;
-        text-align: center;
-        text-decoration: none;
-      }
-      p,
-      h1,
-      h2,
-      h3 {
-        margin: 0;
-        padding: 0;
-      }
       /* Form */
       /* TODO */
       /* Guide */
-      .h1 {
-        font-family: "Press Start 2P", monospace;
-        font-size: 1rem;
-        margin: 0;
-        padding: 0;
+      /* TODO */
+      ul.temp {
+        height: 300vh;
+      }
+      ul.temp:hover {
+        background: pink;
       }
       /* Menu */
       nav.mode {
@@ -202,18 +251,6 @@ class RecaptchaDemo extends LitElement {
       nav.mode .current {
         --mdc-theme-on-secondary: black;
         --mdc-theme-secondary: var(--teal);
-      }
-      /* Products */
-      ul.products {
-        align-items: end; /* TODO: may not be needed after asset cleanup */
-        display: grid;
-        gap: 24px;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
-      }
-      ul.products img {
-        display: block;
-        margin: 0 auto 24px auto;
       }
       /* Shadows */
       @keyframes shadow-enter {
@@ -260,11 +297,12 @@ class RecaptchaDemo extends LitElement {
       }
       .game {
         background: rgba(180, 180, 180, 0.33);
-        position: absolute;
-        top: 0;
-        right: 0;
         bottom: 0;
         left: 0;
+        overflow: hidden;
+        position: absolute;
+        right: 0;
+        top: 0;
       }
       .game.enabled {
         opacity: 1;
@@ -283,8 +321,8 @@ class RecaptchaDemo extends LitElement {
       ul.shadows li {
         --delay: 500ms;
         animation: 1s ease-out 0s 1 normal both running shadow-enter;
-        position: absolute;
         opacity: 0;
+        position: absolute;
       }
       ul.shadows li:nth-child(1) {
         animation-delay: calc(1 * var(--delay));
@@ -304,18 +342,18 @@ class RecaptchaDemo extends LitElement {
       }
       ul.shadows li:nth-child(4) {
         animation-delay: calc(4 * var(--delay));
-        right: calc(2 * 5vw - 5vw);
         bottom: calc(2 * 5vw - 5vw);
+        right: calc(2 * 5vw - 5vw);
       }
       ul.shadows li:nth-child(5) {
-        animation-delay: calc(5 * var(--delay));
-        right: calc(3 * 5vw - 5vw);
         top: calc(2 * 5vw - 5vw);
+        right: calc(3 * 5vw - 5vw);
+        animation-delay: calc(5 * var(--delay));
       }
       ul.shadows li:nth-child(6) {
-        animation-delay: calc(6 * var(--delay));
-        right: calc(1 * 5vw - 5vw);
         top: calc(1 * 5vw - 5vw);
+        right: calc(1 * 5vw - 5vw);
+        animation-delay: calc(6 * var(--delay));
       }
       ul.shadows img {
         animation: 2s ease-in-out 0s infinite normal both running shadow-drift;
@@ -451,23 +489,31 @@ class RecaptchaDemo extends LitElement {
         display: block;
       }
       /* Score */
-      ul.score {
+      dl.score {
         align-items: center;
-        display: inline-flex;
+        background: white;
+        bottom: 0;
+        box-shadow: 0 5px 10px 0 var(--gray-60);
+        display: flex;
         flex-wrap: nowrap;
         justify-content: flex-start;
+        left: 0;
         margin-bottom: 0;
+        padding: 6px 12px 0 12px;
+        position: sticky;
         white-space: nowrap;
       }
-      .score li {
-        align-items: center;
-        display: flex;
+      .score dt {
+        flex: 0 1 auto;
+        margin-right: 12px;
+      }
+      .score dd {
         flex: 1 0 auto;
-        flex-wrap: nowrap;
+      }
+      .score dd:not(:last-child) {
         margin-right: 36px;
       }
       .score img {
-        margin-right: 12px;
         width: 24px;
       }
     `;
@@ -683,114 +729,97 @@ class RecaptchaDemo extends LitElement {
 
     const FORMS = {
       buy: html`
-        <h2 class="legend">Example products</h2>
-        <ul class="unstyled products">
-          <li class="item">
-            <img
-              alt="Demo Product Shield"
-              src="../static/images/shield-unoptimized.svg"
-            />
-            <div>
-              <mwc-button
-                @click=${this.handleSubmit}
-                fullwidth
-                class="submit ${this.done ? "success" : "danger"}"
-                ?disabled=${!this.captured}
-                ?outlined=${!this.done}
-                ?unelevated=${this.done}
-              >
-                Buy
-              </mwc-button>
-            </div>
-          </li>
-          <li class="item">
-            <img
-              alt="Demo Product Arrow"
-              src="../static/images/shadow-arrow-unoptimized.svg"
-            />
-            <div>
-              <mwc-button
-                @click=${this.handleSubmit}
-                fullwidth
-                class="submit ${this.done ? "success" : "danger"}"
-                ?disabled=${!this.captured}
-                ?outlined=${!this.done}
-                ?unelevated=${this.done}
-              >
-                Buy
-              </mwc-button>
-            </div>
-          </li>
-        </ul>
+        <section class="example">
+          <h2 class="h2">Homepage example</h2>
+          <p>Text explaining example and next step.</p>
+          <mwc-button
+            @click=${this.handleSubmit}
+            fullwidth
+            class="submit ${this.done ? "success" : "danger"}"
+            ?disabled=${!this.captured}
+            ?outlined=${!this.done}
+            ?unelevated=${this.done}
+          >
+            Continue
+          </mwc-button>
+        </section>
       `,
       checkout: html`
-        <fieldset>
-          <legend class="legend">Example check out</legend>
-          <dl class="unstyled cart">
-            <dt>
-              <img
-                alt="Demo Product Shield"
-                src="../static/images/shield-unoptimized.svg"
-              />
-            </dt>
-            <dd>1</dd>
-          </dl>
-          <mwc-textfield
-            label="Address"
-            type="text"
-            value="123 Address Street City, ST 00000"
-          ></mwc-textfield>
-          <mwc-textfield
-            label="Credit card"
-            type="number"
-            value="7777-8888-3333-2222"
-          ></mwc-textfield>
-        </fieldset>
-        <fieldset>${BUTTON}</fieldset>
+        <form class="example">
+          <fieldset>
+            <legend><h2 class="h2">Checkout example</h2></legend>
+            <dl class="unstyled cart">
+              <dt>
+                <img
+                  alt="Demo Product Shield"
+                  src="../static/images/shield-unoptimized.svg"
+                />
+              </dt>
+              <dd>1</dd>
+            </dl>
+            <mwc-textfield
+              label="Address"
+              type="text"
+              value="123 Address Street City, ST 00000"
+            ></mwc-textfield>
+            <mwc-textfield
+              label="Credit card"
+              type="number"
+              value="7777-8888-3333-2222"
+            ></mwc-textfield>
+          </fieldset>
+          ${BUTTON}
+        </form>
       `,
       login: html`
-        <fieldset>
-          <legend class="legend">Example log in</legend>
-          <mwc-textfield
-            label="Email"
-            type="email"
-            value="user@example.com"
-          ></mwc-textfield>
-          <mwc-textfield
-            label="Password"
-            type="password"
-            value="password"
-          ></mwc-textfield>
-        </fieldset>
-        <fieldset>${BUTTON}</fieldset>
+        <form class="example">
+          <fieldset>
+            <legend><h2 class="h2">Login example</h2></legend>
+            <mwc-textfield
+              label="Email"
+              type="email"
+              value="user@example.com"
+            ></mwc-textfield>
+            <mwc-textfield
+              label="Password"
+              type="password"
+              value="password"
+            ></mwc-textfield>
+          </fieldset>
+          ${BUTTON}
+        </form>
       `,
       review: html`
-        <fieldset>
-          <legend class="legend">Example leave review</legend>
-          <mwc-textarea label="Review" value="Good job."></mwc-textarea>
-        </fieldset>
-        <fieldset>${BUTTON}</fieldset>
+        <form class="example">
+          <fieldset>
+            <legend><h2 class="h2">Review example</h2></legend>
+            <mwc-textarea label="Review" value="Good job."></mwc-textarea>
+          </fieldset>
+          ${BUTTON}
+        </form>
       `,
       signup: html`
-        <fieldset>
-          <legend class="legend">Example sign up</legend>
-          <mwc-textfield
-            label="Email"
-            type="email"
-            value="user@example.com"
-          ></mwc-textfield>
-          <mwc-textfield
-            label="Password"
-            type="password"
-            value="password"
-          ></mwc-textfield>
-          <mwc-textfield
-            label="Confirm Password"
-            type="password"
-            value="password"
-          ></mwc-textfield>
-        </fieldset>
-        <fieldset>${BUTTON}</fieldset>
+        <form class="example">
+          <fieldset>
+            <legend><h2 class="h2">Signup example</h2></legend>
+            <mwc-textfield
+              label="Email"
+              type="email"
+              value="user@example.com"
+            ></mwc-textfield>
+            <mwc-textfield
+              label="Password"
+              type="password"
+              value="password"
+            ></mwc-textfield>
+            <mwc-textfield
+              label="Confirm Password"
+              type="password"
+              value="password"
+            ></mwc-textfield>
+          </fieldset>
+          ${BUTTON}
+        </form>
       `,
     };
 
@@ -997,37 +1026,38 @@ class RecaptchaDemo extends LitElement {
     };
 
     const SCORE = html`
-      <ul class="score unstyled">
-        <li>
+      <dl class="score unstyled">
+        <dt>
           <img
             alt="Shadows Captured"
             class="shadow skull"
             src="../static/images/shadow-skull-unoptimized.svg"
           />
-          ${this.capturedShadows.length}
-        </li>
-        <li>
+        </dt>
+        <dd>${this.capturedShadows.length}</dd>
+        <dt>
           <img
             alt="Castles Captured"
             class="target castle"
             src="../static/images/castle-unoptimized.svg"
           />
-          ${this.capturedCastles.length}
-        </li>
-        <li>Score: ${this.score}</li>
-        <li>Verdict: ${this.verdict}</li>
-        <li>Time: ${asyncReplace(this.timer)}</li>
-      </ul>
+        </dt>
+        <dd>${this.capturedCastles.length}</dd>
+        <dt>Score:</dt>
+        <dd>${this.score}</dd>
+        <dt>Verdict:</dt>
+        <dd>${this.verdict}</dd>
+        <dt>Time:</dt>
+        <dd>${asyncReplace(this.timer)}</dd>
+      </dl>
     `;
 
     const GUIDES = {
       buy: html`
-        <h1 class="h1" slot="title">Using...</h1>
+        <h1 class="h1" slot="title">Score when the page loads</h1>
         ${GRADE[this.grade]}
-        <ul>
-          <li>
-            What is this an example of? (Answer: invisible score on page load)
-          </li>
+        <ul class="temp">
+          <li>What is this an example of? (Answer: score on page load)</li>
           <li>Why would you verify when the page loads?</li>
           <li>What kind of key? Why? How would you create?</li>
           <li>How would you load JS API?</li>
@@ -1039,16 +1069,15 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       checkout: html`
-        <h1 class="h1" slot="title">Using...</h1>
+        <h1 class="h1" slot="title">Score when users interact</h1>
         ${GRADE[this.grade]}
-        <ul>
+        <ul class="temp">
           <li>
-            What is this an example of? (Answer: invisible score on programmatic
-            user action)
+            What is this an example of? (Answer: score on programmatic user
+            action)
           </li>
           <li>
-            Why would you use an invisible score programmatically on user
-            interaction?
+            Why would you use an score programmatically on user interaction?
           </li>
           <li>What kind of key? Why? How would you create?</li>
           <li>How would you load JS API?</li>
@@ -1060,16 +1089,13 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       login: html`
-        <h1 class="h1" slot="title">Using...</h1>
+        <h1 class="h1" slot="title">Add reCAPTCHA on an HTML button</h1>
         ${GRADE[this.grade]}
-        <ul>
+        <ul class="temp">
           <li>
-            What is this an example of? (Answer: invisible score auto bind html
-            button)
+            What is this an example of? (Answer: score auto bind html button)
           </li>
-          <li>
-            Why would you use an invisible score auto bound to an html button?
-          </li>
+          <li>Why would you use an score auto bound to an html button?</li>
           <li>What kind of key? Why? How would you create?</li>
           <li>How would you load JS API?</li>
           <li>How would you set up the challenge?</li>
@@ -1080,9 +1106,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       review: html`
-        <h1 class="h1" slot="title">Using...</h1>
+        <h1 class="h1" slot="title">Automatically render a checkbox</h1>
         ${GRADE[this.grade]}
-        <ul>
+        <ul class="temp">
           <li>
             What is this an example of? (Answer: checkbox automatically
             rendered)
@@ -1098,9 +1124,9 @@ class RecaptchaDemo extends LitElement {
         </ul>
       `,
       signup: html`
-        <h1 class="h1" slot="title">Using...</h1>
+        <h1 class="h1" slot="title">Explicitly render a checkbox</h1>
         ${GRADE[this.grade]}
-        <ul>
+        <ul class="temp">
           <li>
             What is this an example of? (Answer: checkbox explicitly rendered)
           </li>
@@ -1116,6 +1142,18 @@ class RecaptchaDemo extends LitElement {
       `,
     };
 
+    const BAR = html`
+      <mwc-top-app-bar>
+        <mwc-icon-button
+          slot="navigationIcon"
+          icon="menu"
+          @click=${this.toggleDrawer}
+        ></mwc-icon-button>
+        <h1 slot="title" class="h1">reCAPTCHA Example</h1>
+        ${MENU}
+      </mwc-top-app-bar>
+    `;
+
     return html`
       <mwc-drawer
         class="demo"
@@ -1124,19 +1162,9 @@ class RecaptchaDemo extends LitElement {
         ?open=${this.drawerOpen}
       >
         ${GUIDES[this.step]} ${SCORE}
-        <form slot="appContent">
-          <mwc-top-app-bar>
-            <mwc-icon-button
-              slot="navigationIcon"
-              icon="menu"
-              @click=${this.toggleDrawer}
-            ></mwc-icon-button>
-            <legend slot="title" class="legend">Title</legend>
-            ${MENU}
-          </mwc-top-app-bar>
-          <div>${FORMS[this.step]}</div>
-          <div>${OVERLAYS[this.mode]}</div>
-        </form>
+        <section slot="appContent" class="content">
+          ${BAR} ${FORMS[this.step]} ${OVERLAYS[this.mode]}
+        </section>
       </mwc-drawer>
     `;
   }

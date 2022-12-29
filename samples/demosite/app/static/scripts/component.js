@@ -300,7 +300,7 @@ class RecaptchaDemo extends LitElement {
         bottom: 0;
         left: 0;
         overflow: hidden;
-        position: absolute;
+        position: fixed;
         right: 0;
         top: 0;
       }
@@ -594,11 +594,11 @@ class RecaptchaDemo extends LitElement {
     this.capturedShadows = [];
     this.capturedCastles = [];
     this.timer = countTime(this.timer || 0);
-    this.captured = false;
+    this.captured = window?.sessionStorage.getItem("captured") === "true" ? true : false;
     this.done = false;
     this.grade = "warning";
     this.drawerOpen = true;
-    this.game = "on";
+    this.game = this.captured ? "off" : "on";
   }
 
   willUpdate() {
@@ -610,10 +610,11 @@ class RecaptchaDemo extends LitElement {
       }
     }
     if (this.mode === "human") {
-      this.captured = this.capturedShadows.length >= 6;
+      this.captured = this.captured || this.capturedShadows.length >= 6;
     } else {
-      this.captured = this.capturedCastles.length >= 1;
+      this.captured = this.captured || this.capturedCastles.length >= 1;
     }
+    window?.sessionStorage.setItem("captured", this.captured);
     this.gradeStep();
   }
 
@@ -686,7 +687,6 @@ class RecaptchaDemo extends LitElement {
   }
 
   fullyCapture(event) {
-    console.log("fullycapture", event);
     if (
       ["shadow-capture", "castle-destroy"].includes(event.animationName) &&
       this.captured

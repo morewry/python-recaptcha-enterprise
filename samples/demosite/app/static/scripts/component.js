@@ -84,6 +84,9 @@ class RecaptchaDemo extends LitElement {
           radial-gradient(ellipse at bottom, var(--purple-30) -25%, transparent 45%) center bottom / 200vw 50vh no-repeat fixed,
           var(--indigo-80);
       }
+      mwc-drawer[open].demo {
+        background-position: 75% bottom, 50% bottom, 50% bottom, 50% bottom, 50% bottom;
+      }
       /* Generic */
       ul.unstyled {
         padding: 0;
@@ -232,10 +235,7 @@ class RecaptchaDemo extends LitElement {
       /* Guide */
       /* TODO */
       ul.temp {
-        height: 300vh;
-      }
-      ul.temp:hover {
-        background: pink;
+        height: 200vh;
       }
       /* Menu */
       nav.mode {
@@ -310,6 +310,7 @@ class RecaptchaDemo extends LitElement {
       }
       .game.fading {
         animation: 1s ease-out 0s 1 normal forwards running game-fade;
+        z-index: 4;
       }
       .game.disabled {
         display: none;
@@ -405,7 +406,7 @@ class RecaptchaDemo extends LitElement {
           transform: translateX(0);
         }
         100% {
-          transform: translateX(35vw);
+          transform: translateX(40vw);
         }
       }
       @keyframes castle-destroy {
@@ -438,34 +439,41 @@ class RecaptchaDemo extends LitElement {
           transform: translateY(2px);
         }
       }
-      .destroy {}
+      .destroy {
+        align-items: flex-end;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        left: 25%;
+        position: absolute;
+        width: 50%;
+      }
       .destroy .target {
         cursor: url("../static/images/magnifier-unoptimized.svg") 32 32, auto;
-        position: absolute;
-        right: 5vw;
-        top: 0;
       }
       .destroy .castle {
+        display: block;
+        height: 25vh;
         margin-top: 9px; /* TODO: remove after asset cleanup */
-        width: 100px;
+        max-width: 100%;
+        width: auto;
       }
       .destroy .shadow {
-        left: 5vw;
+        height: 25vh;
         margin-top: -7px;
-        position: absolute;
-        top: 0;
+        max-width: 100%;
         transform: rotate(-24deg);
-        width: 75px;
+        width: auto;
       }
       .destroy.free .target:focus,
       .destroy.free .target:hover {
         animation: 150ms ease-in-out 0s infinite normal both running castle-shake;        
       }
       .destroy.captured .target {
-        animation: 400ms linear 3.5s 1 normal forwards running castle-destroy;
+        animation: 400ms linear 2.65s 1 normal forwards running castle-destroy;
       }
       .destroy.captured .destroyer {
-        animation: 4s ease-in 0s 1 normal forwards running shadow-travel;
+        animation: 3s ease-in 0s 1 normal forwards running shadow-travel;
       }
       .destroy .shadow {
         animation: 1s linear 0s infinite alternate both running shadow-hop;
@@ -489,6 +497,8 @@ class RecaptchaDemo extends LitElement {
         display: block;
       }
       /* Score */
+      /*
+      Bar-style
       dl.score {
         align-items: center;
         background: white;
@@ -513,8 +523,33 @@ class RecaptchaDemo extends LitElement {
       .score dd:not(:last-child) {
         margin-right: 36px;
       }
+      */
+      dl.score {
+        align-items: center;
+        bottom: 0;
+        color: white;
+        display: grid;
+        font-family: "Press Start 2P", monospace;
+        font-size: 1.25rem;
+        gap: 6px calc(1 * 0.85em);
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+        left: 0;
+        line-height: 1;
+        max-width: calc(14 * 0.85em);
+        padding: 12px;
+        position: fixed;
+        text-shadow: -2px -2px 1px var(--indigo-80), 2px 2px 1px var(--purple-30),
+      }
+      mwc-drawer[open] dl.score {
+        left: 50vw;
+      }
+      .score dt {
+        text-align: right;
+      }
       .score img {
-        width: 24px;
+        display: block;
+        width: 1.75rem;
       }
     `;
   }
@@ -755,7 +790,13 @@ class RecaptchaDemo extends LitElement {
                   src="../static/images/shield-unoptimized.svg"
                 />
               </dt>
-              <dd>1</dd>
+              <dd>
+                <mwc-textfield
+                  label="Amount"
+                  type="number"
+                  value="1"
+                ></mwc-textfield>
+              </dd>
             </dl>
             <mwc-textfield
               label="Address"
@@ -1043,12 +1084,24 @@ class RecaptchaDemo extends LitElement {
           />
         </dt>
         <dd>${this.capturedCastles.length}</dd>
+        <!-- 
+        TODO: best practice re: local BE assessment payload
         <dt>Score:</dt>
         <dd>${this.score}</dd>
-        <dt>Verdict:</dt>
+        -->
+        <dt>
+          <img
+            alt="reCAPTCHA assessment"
+            class="magnifier"
+            src="../static/images/magnifier-unoptimized.svg"
+          />
+        </dt>
         <dd>${this.verdict}</dd>
+        <!--
+        TODO: guy doesn't care about time anymore?
         <dt>Time:</dt>
         <dd>${asyncReplace(this.timer)}</dd>
+        -->
       </dl>
     `;
 
@@ -1150,7 +1203,7 @@ class RecaptchaDemo extends LitElement {
           @click=${this.toggleDrawer}
         ></mwc-icon-button>
         <h1 slot="title" class="h1">reCAPTCHA Example</h1>
-        ${MENU}
+        ${MENU} ${FORMS[this.step]} ${OVERLAYS[this.mode]} ${SCORE}
       </mwc-top-app-bar>
     `;
 
@@ -1161,10 +1214,9 @@ class RecaptchaDemo extends LitElement {
         type="dismissible"
         ?open=${this.drawerOpen}
       >
-        ${GUIDES[this.step]} ${SCORE}
-        <section slot="appContent" class="content">
-          ${BAR} ${FORMS[this.step]} ${OVERLAYS[this.mode]}
-        </section>
+        ${GUIDES[this.step]}
+        <!-- ${SCORE} -->
+        <section slot="appContent" class="content">${BAR}</section>
       </mwc-drawer>
     `;
   }

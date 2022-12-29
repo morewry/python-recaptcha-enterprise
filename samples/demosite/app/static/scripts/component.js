@@ -539,7 +539,7 @@ class RecaptchaDemo extends LitElement {
         max-width: calc(14 * 0.85em);
         padding: 12px;
         position: fixed;
-        text-shadow: -2px -2px 1px var(--indigo-80), 2px 2px 1px var(--purple-30),
+        text-shadow: 1px 2px 0 black, -1px -1px 1px var(--purple-30), 0 0 15px var(--indigo-80);
       }
       mwc-drawer[open] dl.score {
         left: 50vw;

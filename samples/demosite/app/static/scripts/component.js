@@ -304,6 +304,9 @@ class RecaptchaDemo extends LitElement {
         right: 0;
         top: 0;
       }
+      mwc-drawer[open] .game {
+        left: 50vw;
+      }
       .game.enabled {
         opacity: 1;
         z-index: 4;
@@ -624,6 +627,7 @@ class RecaptchaDemo extends LitElement {
         const button = this.button.value.shadowRoot.querySelector("button");
         const slot = button.querySelector(".slot-container");
         button.style.height = "auto";
+        button.style.width = "100%";
         slot.style.flexDirection = "column";
       }
     }, 0);
@@ -1108,7 +1112,7 @@ class RecaptchaDemo extends LitElement {
     const GUIDES = {
       buy: html`
         <h1 class="h1" slot="title">Score when the page loads</h1>
-        ${GRADE[this.grade]}
+        <!-- ${GRADE[this.grade]} -->
         <ul class="temp">
           <li>What is this an example of? (Answer: score on page load)</li>
           <li>Why would you verify when the page loads?</li>
@@ -1123,7 +1127,7 @@ class RecaptchaDemo extends LitElement {
       `,
       checkout: html`
         <h1 class="h1" slot="title">Score when users interact</h1>
-        ${GRADE[this.grade]}
+        <!-- ${GRADE[this.grade]} -->
         <ul class="temp">
           <li>
             What is this an example of? (Answer: score on programmatic user
@@ -1143,7 +1147,7 @@ class RecaptchaDemo extends LitElement {
       `,
       login: html`
         <h1 class="h1" slot="title">Add reCAPTCHA on an HTML button</h1>
-        ${GRADE[this.grade]}
+        <!-- ${GRADE[this.grade]} -->
         <ul class="temp">
           <li>
             What is this an example of? (Answer: score auto bind html button)
@@ -1160,7 +1164,7 @@ class RecaptchaDemo extends LitElement {
       `,
       review: html`
         <h1 class="h1" slot="title">Automatically render a checkbox</h1>
-        ${GRADE[this.grade]}
+        <!-- ${GRADE[this.grade]} -->
         <ul class="temp">
           <li>
             What is this an example of? (Answer: checkbox automatically
@@ -1178,7 +1182,7 @@ class RecaptchaDemo extends LitElement {
       `,
       signup: html`
         <h1 class="h1" slot="title">Explicitly render a checkbox</h1>
-        ${GRADE[this.grade]}
+        <!-- ${GRADE[this.grade]} -->
         <ul class="temp">
           <li>
             What is this an example of? (Answer: checkbox explicitly rendered)
